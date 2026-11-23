@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <path d="M8 14h48a4 4 0 0 1 4 4v8a6 6 0 0 0 0 12v8a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-8a6 6 0 0 0 0-12v-8a4 4 0 0 1 4-4z" fill="#c23a23"/>
+  <path d="M42 18v28" stroke="#f3eada" stroke-width="2.5" stroke-dasharray="3 3"/>
+  <text x="23" y="41" text-anchor="middle" font-family="Arial Narrow, Arial, sans-serif" font-weight="900" font-size="22" fill="#f3eada">UI</text>
+</svg>

@@ -1,0 +1,191 @@
+@import "tailwindcss";
+
+/*
+ * Identidade do Último Ingresso: cartaz de show impresso e ingresso de papel.
+ * Papel creme, tinta quase preta, vermelho e mostarda de serigrafia, verde para "deu certo".
+ * Contraste medido: tinta/papel 14,5:1; vermelho-texto/papel 5,1:1; branco/vermelho 5,4:1; branco/verde 6,4:1.
+ */
+@theme inline {
+  --color-papel: #f3eada;
+  --color-papel-2: #e9dcc3;
+  --color-tinta: #1c1730;
+  --color-tinta-suave: #5e566f;
+  --color-vermelho: #c23a23;
+  --color-vermelho-texto: #b3341f;
+  --color-mostarda: #f2b33a;
+  --color-verde: #0e6b60;
+  --font-cartaz: var(--fonte-cartaz), "Arial Narrow", sans-serif;
+  --font-sans: var(--fonte-texto), system-ui, sans-serif;
+  --font-mono: var(--fonte-mono), ui-monospace, monospace;
+}
+
+html {
+  background: #1c1730;
+}
+
+body {
+  min-height: 100dvh;
+  background-color: #f3eada;
+  /* Retícula leve de impressão. */
+  background-image: radial-gradient(rgba(28, 23, 48, 0.07) 1px, transparent 1.2px);
+  background-size: 5px 5px;
+  color: #1c1730;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 3px solid #c23a23;
+  outline-offset: 2px;
+}
+
+::selection {
+  background: #f2b33a;
+  color: #1c1730;
+}
+
+@layer components {
+  .titulo-cartaz {
+    font-family: var(--font-cartaz);
+    font-weight: 900;
+    line-height: 0.86;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+
+  /* Botões: só texto, cantos de 6 px. */
+  .botao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    padding: 0 1.25rem;
+    border-radius: 6px;
+    border: 2px solid #1c1730;
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.1;
+    text-align: center;
+    transition:
+      background-color 0.15s,
+      color 0.15s,
+      transform 0.1s;
+    cursor: pointer;
+    user-select: none;
+  }
+  .botao:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+  .botao:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+  }
+  .botao-tinta {
+    background: #1c1730;
+    color: #f3eada;
+  }
+  .botao-tinta:hover:not(:disabled) {
+    background: #c23a23;
+    border-color: #c23a23;
+    color: #fff;
+  }
+  .botao-vermelho {
+    background: #c23a23;
+    border-color: #c23a23;
+    color: #fff;
+  }
+  .botao-vermelho:hover:not(:disabled) {
+    background: #1c1730;
+    border-color: #1c1730;
+  }
+  .botao-papel {
+    background: transparent;
+    color: #1c1730;
+  }
+  .botao-papel:hover:not(:disabled) {
+    background: #1c1730;
+    color: #f3eada;
+  }
+
+  /* Ingresso de papel: picote nas laterais (na altura --altura-do-furo) e linha tracejada do canhoto. */
+  .bilhete {
+    position: relative;
+    background: #fbf6ec;
+    border: 2px solid #1c1730;
+    border-radius: 6px;
+    --furo: 11px;
+    -webkit-mask:
+      radial-gradient(circle var(--furo) at 0 var(--altura-do-furo, 50%), transparent 98%, #000) left / 51% 100% no-repeat,
+      radial-gradient(circle var(--furo) at 100% var(--altura-do-furo, 50%), transparent 98%, #000) right / 51% 100% no-repeat;
+    mask:
+      radial-gradient(circle var(--furo) at 0 var(--altura-do-furo, 50%), transparent 98%, #000) left / 51% 100% no-repeat,
+      radial-gradient(circle var(--furo) at 100% var(--altura-do-furo, 50%), transparent 98%, #000) right / 51% 100% no-repeat;
+  }
+  .picote {
+    border-top: 2px dashed rgba(28, 23, 48, 0.45);
+  }
+
+  .etiqueta-mono {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.02em;
+  }
+}
+
+/* Mapa */
+.mapa svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: manipulation;
+}
+
+.assento {
+  cursor: pointer;
+  outline: none;
+}
+.assento .anel-foco {
+  fill: none;
+  stroke: transparent;
+}
+.assento:focus-visible .anel-foco {
+  stroke: #c23a23;
+  stroke-width: 3;
+}
+@media (hover: hover) {
+  .assento[data-estado="livre"]:hover .corpo {
+    fill: #f2b33a;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pulso {
+    animation: pulso 1.4s ease-in-out infinite;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  @keyframes pulso {
+    50% {
+      transform: scale(1.35);
+      opacity: 0.35;
+    }
+  }
+  .aparecer {
+    animation: aparecer 0.35s ease-out both;
+  }
+  @keyframes aparecer {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+  .carimbo {
+    animation: carimbo 0.45s cubic-bezier(0.2, 1.6, 0.4, 1) both;
+  }
+  @keyframes carimbo {
+    from {
+      opacity: 0;
+      transform: scale(1.6) rotate(-8deg);
+    }
+  }
+}
