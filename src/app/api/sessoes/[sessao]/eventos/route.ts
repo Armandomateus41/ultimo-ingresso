@@ -1,6 +1,9 @@
 import { obterBanco } from "@/servidor/banco";
 import { assinaturaDaSessao, carregarMapa, ErroDeReserva, expirarVencidas } from "@/servidor/reservas";
 
+/** Em plataformas serverless, a função pode ficar aberta até 5 minutos (o canal fecha antes, em 4). */
+export const maxDuration = 300;
+
 const INTERVALO_MS = 700;
 /** O canal fecha depois de alguns minutos; o EventSource do navegador reconecta sozinho. */
 const DURACAO_MAXIMA_MS = 4 * 60_000;
