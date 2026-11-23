@@ -1,0 +1,31 @@
+# Sobe o Postgres e o app. Para só o banco (desenvolvimento e testes): docker compose up -d db
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: ingresso
+      POSTGRES_PASSWORD: ingresso
+      POSTGRES_DB: ultimo_ingresso
+    ports:
+      - "55433:5432"
+    volumes:
+      - dados:/var/lib/postgresql/data
+      - ./db/criar-banco-de-teste.sql:/docker-entrypoint-initdb.d/criar-banco-de-teste.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ingresso -d ultimo_ingresso"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  app:
+    build: .
+    environment:
+      DATABASE_URL: postgres://ingresso:ingresso@db:5432/ultimo_ingresso
+    ports:
+      - "${PORTA_DO_APP:-3000}:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  dados:
