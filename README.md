@@ -2,6 +2,8 @@
 
 Bilheteria de show com mapa de assentos, reserva com contagem regressiva e uma disputa ao vivo pelo último lugar. Quem decide a disputa é o PostgreSQL.
 
+**Experimente:** https://ultimo-ingresso.vercel.app
+
 ![Disputa pelo último lugar: Ana consegue, Bruno recebe 409 e uma alternativa](docs/captura-disputa.png)
 
 <img src="docs/captura-celular.png" alt="Reserva no celular: setor aproximado, assento marcado e relógio sobre o mapa" width="280" />
@@ -49,6 +51,8 @@ Os testes de integração rodam contra um PostgreSQL de verdade (o banco `ultimo
 - sessões diferentes não interferem uma na outra.
 
 Com o servidor rodando, `npm run verificar` percorre os dois caminhos no navegador, no computador e no celular, e salva capturas em `capturas/`.
+
+A versão publicada roda na Vercel (região de São Paulo) com banco no Neon; cada push no `main` publica de novo.
 
 O CI (GitHub Actions) roda lint, checagem de tipos, os testes com um serviço PostgreSQL, o build e o build da imagem Docker.
 
